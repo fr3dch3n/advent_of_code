@@ -73,7 +73,8 @@ fn part_2(input: String) -> usize {
     sum_sub_colors((shiny_bag.color.to_string(), 1), book_reviews.clone()) -1
 }
 
-
+// Long running, disabling test execution
+#[allow(dead_code)]
 fn day07a() -> usize {
     let content = fs::read_to_string("resources/year2020/day07.txt")
         .expect("Something went wrong reading the file");
@@ -143,6 +144,6 @@ dark violet bags contain no other bags.".to_string();
 
 #[test]
 fn solution_day07() {
-    assert_eq!(335, day07a());
+    // assert_eq!(335, day07a());
     assert_eq!(2431, day07b());
 }

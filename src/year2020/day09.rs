@@ -30,7 +30,7 @@ fn day09a() -> usize {
 }
 
 fn break_encryption(possible_numbers: Vec<usize>, target: usize) -> usize{
-    let max_elements = (possible_numbers.len() - 1);
+    let max_elements = possible_numbers.len() - 1;
     for i in 0..max_elements {
         for j in i..max_elements {
             let mut sub_v = possible_numbers[i..j].to_vec();

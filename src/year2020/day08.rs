@@ -58,7 +58,7 @@ fn change_command(all_commands: Vec<(String, isize)>, index: usize) -> Vec<(Stri
 }
 
 fn bug_fix(all_commands: Vec<(String, isize)>) -> isize {
-    all_commands.iter().enumerate().map(|(i, c)| {
+    (0..(all_commands.len() - 1)).map(|i| {
         let cmd_set = change_command(all_commands.clone(), i.clone());
         finishes(0, cmd_set, 0, vec![])
     }).filter(|o| o.is_some()).nth(0).unwrap().unwrap()
