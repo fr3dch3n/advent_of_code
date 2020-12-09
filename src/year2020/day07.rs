@@ -1,6 +1,7 @@
 use std::fs;
 use regex::Regex;
 use std::collections::HashMap;
+use rayon::prelude::*;
 
 const TARGET_COLOR: &str = "shiny gold";
 
@@ -43,9 +44,9 @@ fn prepare_input(input: String) -> (Vec<Bag>, HashMap<String, Vec<(String, u8)>>
 
 fn has_shiny(color: String, look_up: HashMap<String, Vec<(String, u8)>>) -> bool {
     let child_colors: &Vec<(String, u8)> = look_up.get(&color).unwrap();
-    let colors: Vec<String> = child_colors.iter().map(|x| x.0.to_string()).collect();
+    let colors: Vec<String> = child_colors.par_iter().map(|x| x.0.to_string()).collect();
     if colors.contains(&TARGET_COLOR.to_string()) { return true; }
-    let matches: Vec<String> = colors.iter().filter(|c| *c == TARGET_COLOR || has_shiny(c.to_string(), look_up.clone()))
+    let matches: Vec<String> = colors.par_iter().filter(|c| *c == TARGET_COLOR || has_shiny(c.to_string(), look_up.clone()))
         .map(|x| x.to_string())
         .collect();
     matches.len() >= 1
@@ -53,8 +54,7 @@ fn has_shiny(color: String, look_up: HashMap<String, Vec<(String, u8)>>) -> bool
 
 fn part_1(input: String) -> usize {
     let (bags, book_reviews) = prepare_input(input);
-    bags.iter().filter(|b| {
-        println!("{}", &b.color);
+    bags.par_iter().filter(|b| {
         has_shiny((&b).color.to_string(), book_reviews.clone())
     }).count()
 }
