@@ -24,6 +24,10 @@ install: ## Install dependencies with Poetry
 test: install ## Run all tests for all years
 	$(PYTEST) tests/
 
+.PHONY: test-watch
+test-watch: install ## Watch tests
+	poetry run ptw
+
 .PHONY: test-year
 test-year: install ## Run all tests for a specific year
 	$(PYTEST) tests/year_$(YEAR)
