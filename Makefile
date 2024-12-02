@@ -22,7 +22,7 @@ install: ## Install dependencies with Poetry
 
 .PHONY: test
 test: install ## Run all tests for all years
-	$(PYTEST) tests/
+	$(PYTEST) -n auto tests/
 
 .PHONY: test-watch
 test-watch: install ## Watch tests
