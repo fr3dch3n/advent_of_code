@@ -34,7 +34,7 @@ test-year: install ## Run all tests for a specific year
 
 .PHONY: test-year-day
 test-year-day: install ## Run tests for a specific day within a specific year
-	$(PYTEST) tests/year_$(YEAR)/test_day_$(DAY).py
+	$(PYTEST) -s -vv tests/year_$(YEAR)/test_day_$(DAY).py
 
 .PHONY: update
 update: ## Update poetry deps
