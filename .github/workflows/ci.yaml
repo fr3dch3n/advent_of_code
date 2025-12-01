@@ -1,0 +1,35 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install mise
+        run: curl https://mise.run | sh
+      - name: Add mise to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Cache mise tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/mise
+          key: ${{ runner.os }}-mise-${{ hashFiles('.mise.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-mise-
+      - name: Cache uv
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+      - name: Install dependencies
+        run: mise run ci-install
+      - name: Run linters
+        run: mise run lint
+      - name: Run tests
+        run: mise run test

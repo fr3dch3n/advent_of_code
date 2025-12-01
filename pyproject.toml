@@ -1,0 +1,21 @@
+[project]
+name = "advent_of_code"
+version = "0.1.0"
+description = "Advent of Code"
+authors = [{ name = "Freddy" }]
+requires-python = ">=3.14"
+
+[dependency-groups]
+dev = ["pytest==9.0.1", "ruff==0.14.7"]
+
+[tool.uv]
+managed = true
+
+[tool.pytest.ini_options]
+pythonpath = "."
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

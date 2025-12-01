@@ -1,0 +1,48 @@
+[tools]
+python = "3.14"
+pre-commit = "4.5.0"
+uv = "0.9.13"
+
+[tasks.pre-commit-install]
+description = "install pre-commit"
+run = "pre-commit install"
+
+[tasks.pre-commit]
+description = "run pre-commit"
+depends = ["pre-commit-install"]
+run = "pre-commit run --all-files"
+
+[tasks.install]
+description = "create uv env"
+depends = ["pre-commit-install"]
+run = "uv sync"
+
+[tasks.ci-install]
+description = "create uv env for CI (skip pre-commit install)"
+run = "uv sync"
+
+[tasks.test]
+description = "run tests"
+depends = ["install"]
+run = "uv run pytest -svv"
+
+[tasks.run]
+description = "run the main program"
+depends = ["install"]
+run = "uv run python src/main.py"
+
+[tasks.lint]
+description = "run linters"
+depends = ["install"]
+run = """
+uv run ruff check .
+uv run ruff format --check .
+"""
+
+[tasks.format]
+description = "run formatters and fix issues"
+depends = ["install"]
+run = """
+uv run ruff check --fix .
+uv run ruff format .
+"""
